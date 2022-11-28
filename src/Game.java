@@ -3,9 +3,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class Game extends Thread{
     protected Socket player1;  //Spelare 1
@@ -104,6 +102,7 @@ public class Game extends Thread{
                     protocol.getOutput(false);
                 }
                 if(protocol.state == protocol.SENDING_CATEGORIES){
+                    currentRound++;
                     List<String> categories = getCategory();
                     if(player1 == currentPlayer){
                         p1Out.writeObject(categories);
@@ -136,12 +135,20 @@ public class Game extends Thread{
                 }
                 if(protocol.state == protocol.ANSWERING_QUESTIONS){
                     System.out.println("Väntar på svar från båda spelarna");
-                    p1score[currentRound] = (boolean[]) p1In.readObject();
+                    p1score[currentRound-1] = (boolean[]) p1In.readObject();
                     System.out.println("Spelare 1 resultat sparat");
-                    p2score[currentRound] = (boolean[]) p2In.readObject();
+                    p2score[currentRound-1] = (boolean[]) p2In.readObject();
                     System.out.println("Spelare 2 resultat sparat");
 
                     System.out.println("Båda spelarna har skickat in svar");
+                    protocol.getOutput(false);
+                }
+                if(protocol.state == protocol.UPDATE_RESULT){
+                    System.out.println("Innan uppdatering av resultat");
+                    p1Out.writeObject(p2score[currentRound-1]);
+                    p2Out.writeObject(p1score[currentRound-1]);
+                    System.out.println("Efter uppdatering av resultat");
+
                     if(currentRound < maxRounds){
                         protocol.getOutput(true);
                         if(tempPlayer == player1){
@@ -149,13 +156,13 @@ public class Game extends Thread{
                         }else currentPlayer = player1;
                     }
                     else protocol.getOutput(false);
-
                 }
 
                 if(protocol.state == protocol.GAME_FINISHED){
                     p1Out.writeObject(new GameFinished());
                     p2Out.writeObject(new GameFinished());
                     System.out.println("Spelet avslutat");
+                    protocol.getOutput(false);
                 }
 
 
@@ -165,8 +172,11 @@ public class Game extends Thread{
     }
 
     private List<String> getCategory(){
-//        Collections.shuffle(kategori);
+        System.out.println("innan "+kategori);
+        Collections.shuffle(kategori);
+        System.out.println("efter " +kategori);
         //Fixa en shuffle metod som fungerar
+
 
         return List.of(kategori.get(0), kategori.get(1), kategori.get(2), kategori.get(3));
     }
@@ -220,6 +230,7 @@ public class Game extends Thread{
     Questions matematikQ3 = new Questions("Vad är värdet på pi (fyra decimaler)", "3,1415", "3,1417", "3,1414", "3,1314", "3,1415");
     Category matematik = new Category("Matematik",matematikQ1, matematikQ2, matematikQ3);
 
-    List<String> kategori = List.of("Historia", "Sport", "Film", "Geografi", "Mat", "Matematik");
+    List<String> kategori = new java.util.ArrayList<>(List.of("Historia", "Sport", "Film", "Geografi", "Mat", "Matematik"));
+//    String[] kategori = {"Historia", "Sport", "Film", "Geografi", "Mat", "Matematik"};
     List<Category> allCategories = List.of(historia, sport, film, geografi, mat, matematik);
 }

@@ -38,12 +38,16 @@ public class GUI extends JFrame {
     private JLabel player1JLabel;
     private JLabel resultJLabel;
     private JLabel player2JLabel;
+    private JPanel PlayerResult;
+    private JPanel OpponentResult;
 
     protected List<String> listString;
     protected List<Questions> listQuestions;
     protected boolean[] answers;
+    protected boolean[] opponentAnswers;
     protected int currentQuestion;
     protected int questionAmount;
+    protected int rounds;
     protected boolean answered;
 
     public GUI(String serverAddress) throws IOException {
@@ -55,7 +59,7 @@ public class GUI extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
-        this.setSize(300, 400);
+        this.setSize(450, 600);
         this.setLocationRelativeTo(null);
         setVisible(true);
         mainPanel.add(homeScreen);
@@ -182,13 +186,32 @@ public class GUI extends JFrame {
                 }
             }
         });
+        endGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        newGameButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    play();
+                    newGameButton2.setVisible(false);
+                } catch (Exception ex) {
+                    System.out.println("Kunde inte starta nytt spel");
+                }
+            }
+        });
     }
 
     public void play() throws Exception {
+        newGameButton2.setVisible(false);
         Object fromServer;
         String player = "TEMP_PLAYER1";
         String opponent = "TEMP_PLAYER2";
         String turn = player;
+        rounds = 1;
         try {
             System.out.println("GUI play");
             fromServer = objIn.readObject();
@@ -202,6 +225,8 @@ public class GUI extends JFrame {
                 }
                 System.out.println("Spelare - " + player);
                 setTitle(player);
+                player1JLabel.setText("Du");
+                player2JLabel.setText("Motståndare");
             }
             System.out.println("Innan loop i play");
             while (true) {
@@ -229,10 +254,23 @@ public class GUI extends JFrame {
                     categoryScreen.setVisible(false);
                     gameScreen.setVisible(false);
                     resultScreen.setVisible(true);
+                    newGameButton2.setVisible(true);
 
                     //TODO: Check winner
 
-                } else if(fromServer instanceof String) {
+                } else if(fromServer instanceof boolean[]){
+                    opponentAnswers = (boolean[]) fromServer;
+                    PlayerResult.setLayout(new GridLayout(10, 1));
+                    OpponentResult.setLayout(new GridLayout(10,1));
+                    updatePlayerResult(answers);
+                    updateOpponentResult(opponentAnswers);
+
+//                    updateOpponentResult();
+
+
+
+
+                }else if(fromServer instanceof String) {
                     System.out.println("instance of string");
                 }
                 else {
@@ -252,6 +290,7 @@ public class GUI extends JFrame {
                         currentQuestion = 0;
                         questionAmount = listQuestions.size();
                         answers = new boolean[questionAmount];
+                        rounds++;
 
                         while (!listQuestions.isEmpty()) {
                             answered = false;
@@ -309,6 +348,35 @@ public class GUI extends JFrame {
         }
 
         //Client Rad 93
+    }
+    public void updatePlayerResult(boolean[] input){
+        JPanel panel = new JPanel();
+        for (int i = 0; i < questionAmount; i++) {
+            JButton button = new JButton();
+            panel.add(button);
+            button.setEnabled(false);
+            if(input[i]){
+                button.setBackground(Color.GREEN);
+            }
+            else button.setBackground(Color.RED);
+        }
+        PlayerResult.add(panel);
+        PlayerResult.setVisible(true);
+    }
+
+    public void updateOpponentResult(boolean[] input){
+        JPanel panel = new JPanel();
+        for (int i = 0; i < questionAmount; i++) {
+            JButton button = new JButton();
+            panel.add(button);
+            button.setEnabled(false);
+            if(input[i]){
+                button.setBackground(Color.GREEN);
+            }
+            else button.setBackground(Color.RED);
+        }
+        OpponentResult.add(panel);
+        OpponentResult.setVisible(true);
     }
 
     public boolean playAgain() {
