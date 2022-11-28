@@ -42,7 +42,6 @@ public class Protocol {
 
         } else if (state == GAME_FINISHED) {  //Alla omgångar avslutade
             System.out.println("finished state");
-            output = new GameFinished();
         }
 
         return output;

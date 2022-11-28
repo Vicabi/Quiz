@@ -1,5 +1,7 @@
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +12,17 @@ public class Game extends Thread{
     protected Socket player2;  //Spelare 2
     protected Socket currentPlayer; //Håller koll på vilken spelare som ska välja kategori
     protected Socket tempPlayer;
-    public Game(Socket player1, Socket player2) {
+    protected ObjectOutputStream p1Out;
+    protected ObjectInputStream p1In;
+    protected ObjectOutputStream p2Out;
+    protected ObjectInputStream p2In;
+    public Game(Socket player1, Socket player2) throws IOException {
         this.player1 = player1;
         this.player2 = player2;
+        p1Out = new ObjectOutputStream(player1.getOutputStream());
+        p1Out.writeObject("Välkommen Spelare 1");
+        p2Out = new ObjectOutputStream(player2.getOutputStream());
+        p2Out.writeObject("Välkommen Spelare 2");
     }
 
     protected int currentRound;
@@ -56,7 +66,7 @@ public class Game extends Thread{
     }
 
     public void setScore(boolean[] score, int round){
-//        if(inputPlayer == player1){
+//        if(player1){
 //            p2score[round] = score;
 //        }
 //        else if(inputPlayer == player2){
@@ -77,13 +87,80 @@ public class Game extends Thread{
         }
         maxRounds = Integer.parseInt(properties.getProperty("ROUNDS", "2"));
         numberOfQuestions = Integer.parseInt(properties.getProperty("QUESTIONS", "2"));
+        setupScoreArrays(numberOfQuestions, maxRounds);
         currentRound = 0;
+        try {
+            p1In = new ObjectInputStream(player1.getInputStream());
+            p2In = new ObjectInputStream(player2.getInputStream());
+            while (true) {
+                if (protocol.state == protocol.INITIAL) {
+                    p1Out.writeObject(new Intro());
+                    p2Out.writeObject(new Intro());
+                    protocol.getOutput(false);
+                }
+                if(protocol.state == protocol.WAITING){
+                    p1Out.writeObject(new Waiting());
+                    p2Out.writeObject(new Waiting());
+                    protocol.getOutput(false);
+                }
+                if(protocol.state == protocol.SENDING_CATEGORIES){
+                    List<String> categories = getCategory();
+                    if(player1 == currentPlayer){
+                        p1Out.writeObject(categories);
+                        System.out.println("Kategorier skickade till Spelare 1");
+                    }
+                    else if(currentPlayer == player2){
+                        p2Out.writeObject(categories);
+                        System.out.println("Kategorier skickade till Spelare 2");
+                    }
+                    protocol.getOutput(false);
+                }
+                if(protocol.state == protocol.SENDING_QUESTIONS){
+                    String chosenCategory = "";
+                    if(currentPlayer == player1){
+                        chosenCategory = (String) p1In.readObject();
+                        System.out.println("Vald kategori inläst från Spelare 1");
 
-        while(true){
+                    }
+                    if(currentPlayer == player2){
+                        chosenCategory = (String) p2In.readObject();
+                        System.out.println("Vald kategori inläst från Spelare 2");
+
+                    }
+                    List<Questions> questionsToSend = getQuestions(numberOfQuestions, chosenCategory);
+                    p1Out.writeObject(questionsToSend);
+                    p2Out.writeObject(questionsToSend);
+                    tempPlayer = currentPlayer;
+                    currentPlayer = null;
+                    protocol.getOutput(false);
+                }
+                if(protocol.state == protocol.ANSWERING_QUESTIONS){
+                    System.out.println("Väntar på svar från båda spelarna");
+                    p1score[currentRound] = (boolean[]) p1In.readObject();
+                    System.out.println("Spelare 1 resultat sparat");
+                    p2score[currentRound] = (boolean[]) p2In.readObject();
+                    System.out.println("Spelare 2 resultat sparat");
+
+                    System.out.println("Båda spelarna har skickat in svar");
+                    if(currentRound < maxRounds){
+                        protocol.getOutput(true);
+                        if(tempPlayer == player1){
+                            currentPlayer = player2;
+                        }else currentPlayer = player1;
+                    }
+                    else protocol.getOutput(false);
+
+                }
+
+                if(protocol.state == protocol.GAME_FINISHED){
+                    p1Out.writeObject(new GameFinished());
+                    p2Out.writeObject(new GameFinished());
+                    System.out.println("Spelet avslutat");
+                }
 
 
-
-        }
+            }
+        }catch (Exception ignore){}
 
     }
 
