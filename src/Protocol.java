@@ -14,14 +14,8 @@ public class Protocol {
 
     protected int state = INITIAL;
 
-    Properties properties;
-    protected int currentRound;
-    protected int maxRounds;
-    protected int numberOfQuestions;
-
     public Object getOutput(boolean anotherRound) { //Spelaren klickar på "Historia"-knappen och skickar hit
         Object output = null;
-        currentRound = 0;
 
         if (state == INITIAL) {         //Spelare ansluten
             System.out.println("initial state");
@@ -34,7 +28,6 @@ public class Protocol {
         } else if (state == SENDING_CATEGORIES) {  //Skickar kategorier till spelaren
             System.out.println("sending state");
 
-            currentRound++;
             state = SENDING_QUESTIONS;
         } else if (state == SENDING_QUESTIONS) {  //Skickar frågor från vald kategori
             System.out.println("choosing state");

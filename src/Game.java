@@ -16,6 +16,8 @@ public class Game extends Thread{
     }
 
     protected int currentRound;
+    protected int maxRounds;
+    protected int numberOfQuestions;
     protected int p1points;  //Spelare 1 poäng
     protected int p2points;  //Spelare 2 poäng
 
@@ -54,12 +56,12 @@ public class Game extends Thread{
     }
 
     public void setScore(boolean[] score, int round){
-        if(inputPlayer == player1){
-            p2score[round] = score;
-        }
-        else if(inputPlayer == player2){
-            p1score[round] = score;
-        }
+//        if(inputPlayer == player1){
+//            p2score[round] = score;
+//        }
+//        else if(inputPlayer == player2){
+//            p1score[round] = score;
+//        }
     }
 
     @Override
@@ -67,6 +69,7 @@ public class Game extends Thread{
         Protocol protocol = new Protocol();
         Properties properties = new Properties();
         properties = new Properties();
+
         try {
             properties.load(new FileInputStream("src/Properties.properties"));
         } catch (IOException e) {
@@ -74,8 +77,10 @@ public class Game extends Thread{
         }
         maxRounds = Integer.parseInt(properties.getProperty("ROUNDS", "2"));
         numberOfQuestions = Integer.parseInt(properties.getProperty("QUESTIONS", "2"));
+        currentRound = 0;
 
         while(true){
+
 
 
         }
