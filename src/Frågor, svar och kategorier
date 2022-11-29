@@ -120,3 +120,82 @@ Matematik:
         - Svarsalternativ 3: 3,1414
         - Svarsalternativ 4: 3,1314
 
+
+Musik:
+    - Fråga 1: Vilket band var Paul McCartney med i?
+        - Svarsalternativ 1: Backstreet Boys
+        - Svarsalternativ 2: NSYNC
+        - Svarsalternativ 3: The Beatles (rätt svar)
+        - Svarsalternativ 4: New Kids on the Block
+
+    - Fråga 2: Vem sjöng hit sången "Thriller"
+        - Svarsalternativ 1: Michael Jackson (rätt svar)
+        - Svarsalternativ 2: Bob Marley
+        - Svarsalternativ 3: Christina Aguilera
+        - Svarsalternativ 4: Bruno Mars
+
+    - Fråga 3: Vem vann Eurovision år 2009?
+        - Svarsalternativ 1: Sverige
+        - Svarsalternativ 2: Finland
+        - Svarsalternativ 3: Tyskland
+        - Svarsalternativ 4: Norge (rätt svar)
+
+
+Djur:
+    - Fråga 1: Största levande djur?
+        - Svarsalternativ 1: Blåval (rätt svar)
+        - Svarsalternativ 2: Elefant
+        - Svarsalternativ 3: Anakonda
+        - Svarsalternativ 4: Giraff
+
+    - Fråga 2: Vad är färgen på en giraffs tunga?
+        - Svarsalternativ 1: Rosa
+        - Svarsalternativ 2: Röd
+        - Svarsalternativ 3: Lila (rätt svar)
+        - Svarsalternativ 4: Vit
+
+    - Fråga 3: Vilket djur sägs ha nio liv?
+        - Svarsalternativ 1: Hund
+        - Svarsalternativ 2: Katt (rätt svar)
+        - Svarsalternativ 3: Räv
+        - Svarsalternativ 4: Varg
+
+
+Litteratur:
+    - Fråga 1: Vem skrev boken 1984?
+        - Svarsalternativ 1: Stephen King
+        - Svarsalternativ 2: George Orwell (rätt svar)
+        - Svarsalternativ 3: Agatha Christie
+        - Svarsalternativ 4: Franz Kafka
+
+    - Fråga 2: Vem skrev Harry Potter böckerna?
+        - Svarsalternativ 1: Stephen King
+        - Svarsalternativ 2: George Orwell
+        - Svarsalternativ 3: Chris Columbus
+        - Svarsalternativ 4: J.K Rowling (rätt svar)
+
+    - Fråga 3: Vem skrev Sagan om ringen böckerna?
+        - Svarsalternativ 1: J.R.R. Tolkien (rätt svar)
+        - Svarsalternativ 2: J.K Rowling
+        - Svarsalternativ 3: Peter Jackson
+        - Svarsalternativ 4: Elijah Wood
+
+
+Språk:
+    - Fråga 1: Vilket år blev svenskan det officiella språket i Sverige?
+        - Svarsalternativ 1: 2006
+        - Svarsalternativ 2: 2009 (rätt svar)
+        - Svarsalternativ 3: 1973
+        - Svarsalternativ 4: 1998
+
+    - Fråga 2: Vilket språk har flest modersmålstalare?
+        - Svarsalternativ 1: Engelska
+        - Svarsalternativ 2: Spanska
+        - Svarsalternativ 3: Hindi
+        - Svarsalternativ 4: Mandarin (rätt svar)
+
+    - Fråga 3: Vilket språk talas i Brasilien?
+        - Svarsalternativ 1: Portugisiska
+        - Svarsalternativ 2: Spanska
+        - Svarsalternativ 3: Engelska
+        - Svarsalternativ 4: Latinamerikanska
