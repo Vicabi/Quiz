@@ -1,4 +1,5 @@
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
 
@@ -8,20 +9,14 @@ public class Server {
 
         try {
             while (true) {
-                Game game = new Game();
-                System.out.println("Game skapat");
-                ServerPlayer player1 = new ServerPlayer(listener.accept(), "Spelare 1",game);
+                Socket player1 = listener.accept();
                 System.out.println("Spelare 1 ansluten");
-                ServerPlayer player2 = new ServerPlayer(listener.accept(),"Spelare 2",game);
+                Socket player2 = listener.accept();
                 System.out.println("Spelare 2 ansluten");
-
-                player1.setOpponent(player2);
-                player2.setOpponent(player1);
-                game.player1 = player1;
-                game.player2 = player2;
+                Game game = new Game(player1, player2);
+                System.out.println("Game skapat");
                 game.currentPlayer = player1;
-                player1.start();
-                player2.start();
+                game.start();
                 System.out.println("Slutet av main loop");
 
             }
