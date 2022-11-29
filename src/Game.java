@@ -230,7 +230,26 @@ public class Game extends Thread{
     Questions matematikQ3 = new Questions("Vad är värdet på pi (fyra decimaler)", "3,1415", "3,1417", "3,1414", "3,1314", "3,1415");
     Category matematik = new Category("Matematik",matematikQ1, matematikQ2, matematikQ3);
 
-    List<String> kategori = new java.util.ArrayList<>(List.of("Historia", "Sport", "Film", "Geografi", "Mat", "Matematik"));
-//    String[] kategori = {"Historia", "Sport", "Film", "Geografi", "Mat", "Matematik"};
-    List<Category> allCategories = List.of(historia, sport, film, geografi, mat, matematik);
+    Questions musikQ1 = new Questions("Vilket band var Paul McCartney med i?", "Backstreet Boys","NSYNC", "The Beatles", "New Kids on the Block", "The Beatles");
+    Questions musikQ2 = new Questions("Vem sjöng hit sången \"Thriller\"", "Michael Jackson", "Bob Marley", "Christina Aguilera", "Bruno Mars", "Michael Jackson");
+    Questions musikQ3 = new Questions("Vem vann Eurovision år 2009?", "Sverige", "Finland", "Tyskland", "Norge", "Norge");
+    Category musik = new Category("Musik", musikQ1, musikQ2, musikQ3);
+
+    Questions djurQ1 = new Questions("Vilket är väldens största levande djur?", "Blåval", "Elefant", "Anakonda", "Giraff", "Blåval");
+    Questions djurQ2 = new Questions("Vad är färgen på en giraffs tunga?", "Rosa","Röd","Lila","Vit","Lila");
+    Questions djurQ3 = new Questions("Vilket djur sägs ha nio liv?","Hund","Katt","Räv","Varg","Katt");
+    Category djur = new Category("Djur", djurQ1,djurQ2,djurQ3);
+
+    Questions litteraturQ1 = new Questions("Vem skrev boken 1984?","Stephen King","George Orwell","Agatha Christie","Franz Kafka","George Orwell");
+    Questions litteraturQ2 = new Questions("Vem skrev Harry Potter böckerna?","Stephen King","George Orwell","Chris Columbus","J.K Rowling","J.K Rowling");
+    Questions litteraturQ3 = new Questions("Vem skrev Sagan om ringen böckerna?","J.R.R. Tolkien","J.K Rowling","Peter Jackson","Elijah Wood","J.R.R. Tolkien");
+    Category litteratur = new Category("Litteratur", litteraturQ1, litteraturQ2,litteraturQ3);
+
+    Questions språkQ1 = new Questions("Vilket år blev svenskan det officiella språket i Sverige?","2006","2009","1973","1998","2009");
+    Questions språkQ2 = new Questions("Vilket språk har flest modersmålstalare?","Engelska","Spanska","Hindi","Mandarin","Mandarin");
+    Questions språkQ3 = new Questions("Vilket språk talas i Brasilien?","Portugisiska","Spanska","Engelska","Latinamerikanska","Portugisiska");
+    Category språk = new Category("Språk", språkQ1,språkQ2,språkQ3);
+
+    List<String> kategori = new java.util.ArrayList<>(List.of("Historia", "Sport", "Film", "Geografi", "Mat", "Matematik", "Musik", "Djur", "Litteratur", "Språk"));
+    List<Category> allCategories = List.of(historia, sport, film, geografi, mat, matematik, musik, djur, litteratur, språk);
 }
