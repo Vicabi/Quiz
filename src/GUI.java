@@ -135,7 +135,6 @@ public class GUI extends JFrame {
                     if (listQuestions.get(0).getA1().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
                         answerOptions1Button.setBackground(Color.GREEN);
-                        playerPointsCounter++;
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions1Button.setBackground(Color.RED);
@@ -152,7 +151,6 @@ public class GUI extends JFrame {
                     if (listQuestions.get(0).getA2().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
                         answerOptions2Button.setBackground(Color.GREEN);
-                        playerPointsCounter++;
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions2Button.setBackground(Color.RED);
@@ -169,7 +167,6 @@ public class GUI extends JFrame {
                     if (listQuestions.get(0).getA3().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
                         answerOptions3Button.setBackground(Color.GREEN);
-                        playerPointsCounter++;
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions3Button.setBackground(Color.RED);
@@ -186,7 +183,6 @@ public class GUI extends JFrame {
                     if (listQuestions.get(0).getA4().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
                         answerOptions4Button.setBackground(Color.GREEN);
-                        playerPointsCounter++;
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions4Button.setBackground(Color.RED);
@@ -262,7 +258,7 @@ public class GUI extends JFrame {
                     resultScreen.setVisible(true);
                     newGameButton2.setVisible(true);
 
-                    //TODO: Check winner
+                    checkWinner();
 
                 } else if (fromServer instanceof boolean[]) {
                     opponentAnswers = (boolean[]) fromServer;
@@ -312,16 +308,6 @@ public class GUI extends JFrame {
                             answerOptions3Button.setText(listQuestions.get(0).getA3());
                             answerOptions4Button.setText(listQuestions.get(0).getA4());
 
-                            //Starta timer när spelaren fått frågan
-                            //Få nästa fråga om tiden tar slut eller spelaren ger sitt svar
-//                            LocalTime time = LocalTime.now();
-//                            if (answered || time.plusSeconds(15) == LocalTime.now()) {
-//                                if(!answered){
-//                                    answers[currentQuestion] = false;
-//                                }
-//                                listQuestions.remove(0);
-//                                currentQuestion++;
-//                            }
                             if (answered) {
                                 listQuestions.remove(0);
                                 currentQuestion++;
@@ -332,7 +318,6 @@ public class GUI extends JFrame {
                             resultScreen.setVisible(true);
                             objOut.reset();
                             objOut.writeObject(answers);
-                            playerPoints.setText(String.valueOf(playerPointsCounter));
                             System.out.println("Resultat skickade " + answers[0] + " " + answers[1]);
                         }
 
@@ -356,8 +341,6 @@ public class GUI extends JFrame {
         } finally {
             socket.close();
         }
-
-        //Client Rad 93
     }
 
     public void updatePlayerResult(boolean[] input) {
@@ -370,6 +353,13 @@ public class GUI extends JFrame {
                 button.setBackground(Color.GREEN);
             } else button.setBackground(Color.RED);
         }
+        for (boolean b : input) {
+            if (b) {
+                playerPointsCounter++;
+            }
+        }
+
+        playerPoints.setText(String.valueOf(playerPointsCounter));
         PlayerResult.add(panel);
         PlayerResult.setVisible(true);
     }
@@ -394,8 +384,14 @@ public class GUI extends JFrame {
         OpponentResult.setVisible(true);
     }
 
-    public boolean playAgain() {
-        return true;
+    public void checkWinner() {
+        if(playerPointsCounter > opponentPointsCounter){
+            JOptionPane.showMessageDialog(null, "DU VANN!");
+        } else if (opponentPointsCounter > playerPointsCounter) {
+            JOptionPane.showMessageDialog(null, "DU FÖRLORADE!");
+        }else {
+            JOptionPane.showMessageDialog(null, "DET BLEV LIKA!");
+        }
     }
 
     public static void main(String[] args) throws Exception {

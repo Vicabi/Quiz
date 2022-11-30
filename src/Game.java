@@ -31,30 +31,6 @@ public class Game extends Thread{
 
     protected boolean[] p1score; //Spelare 1 resultat array
     protected boolean[] p2score; //Spelare 2 resultat array
-    protected List<Questions> chosenQuestions;  //Frågor som skickas till den spelare som inte valt kategori
-    protected boolean questionsReady;
-    protected boolean p1answered;
-    protected boolean p2answered;
-
-    public void setChosenQuestions(List<Questions> inputQuestions){
-        chosenQuestions = inputQuestions;
-    }
-    public List<Questions> getChosenQuestions(){
-        return chosenQuestions;
-    }
-
-    public void setCurrentPlayer(Socket input){
-        currentPlayer = input;
-    }
-
-    public void setScore(boolean[] score, int round){
-//        if(player1){
-//            p2score[round] = score;
-//        }
-//        else if(inputPlayer == player2){
-//            p1score[round] = score;
-//        }
-    }
 
     @Override
     public void run(){
@@ -69,7 +45,6 @@ public class Game extends Thread{
         }
         maxRounds = Integer.parseInt(properties.getProperty("ROUNDS", "2"));
         numberOfQuestions = Integer.parseInt(properties.getProperty("QUESTIONS", "2"));
-//        setupScoreArrays(numberOfQuestions, maxRounds);
         p1score = new boolean[1];
         p2score = new boolean[1];
         currentRound = 0;
@@ -182,22 +157,24 @@ public class Game extends Thread{
     }
 
     private List<Questions> getQuestions(int qAmount, String category){
-//        System.out.println("inne i getquestions");
-//        System.out.println(qAmount + " " + category);
-//        System.out.println(allCategories.size());
         List<Questions> questions = new ArrayList<>();
         for (Category c : allCategories) {
-//            System.out.println(c.getCategory());
             if (c.getCategory().equals(category)) {
                 for (int j = 0; j < qAmount; j++) {
                     questions.add(c.questions.get(j));
                 }
             }
         }
-//        System.out.println(questions.size() + " " + questions.get(0).getQ());
-
-        //Ta bort använd kategori
         return questions;
+    }
+
+    private void removeCategory(String category){
+        for (int i = 0; i < allCategories.size(); i++) {
+            if(allCategories.get(i).category.equals(category)){
+                allCategories.remove(i);
+                break;
+            }
+        }
     }
     public void calculatePoints(boolean[] input, Socket player){
         if(player == player1){
@@ -257,7 +234,7 @@ public class Game extends Thread{
     Category djur = new Category("Djur", djurQ1,djurQ2,djurQ3);
 
     Questions litteraturQ1 = new Questions("Vem skrev boken 1984?","Stephen King","George Orwell","Agatha Christie","Franz Kafka","George Orwell");
-    Questions litteraturQ2 = new Questions("Vem skrev Harry Potter böckerna?","Stephen King","George Orwell","Chris Columbus","J.K Rowling","J.K Rowling");
+    Questions litteraturQ2 = new Questions("Vem skrev Harry Potter böckerna?","George Orwell","Chris Columbus","Stephen King","J.K Rowling","J.K Rowling");
     Questions litteraturQ3 = new Questions("Vem skrev Sagan om ringen böckerna?","J.R.R. Tolkien","J.K Rowling","Peter Jackson","Elijah Wood","J.R.R. Tolkien");
     Category litteratur = new Category("Litteratur", litteraturQ1, litteraturQ2,litteraturQ3);
 
