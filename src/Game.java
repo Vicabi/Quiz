@@ -29,29 +29,13 @@ public class Game extends Thread{
     protected int p1points;  //Spelare 1 poäng
     protected int p2points;  //Spelare 2 poäng
 
-    protected boolean[][] p1score; //Spelare 1 resultat array
-    protected boolean[][] p2score; //Spelare 2 resultat array
+    protected boolean[] p1score; //Spelare 1 resultat array
+    protected boolean[] p2score; //Spelare 2 resultat array
     protected List<Questions> chosenQuestions;  //Frågor som skickas till den spelare som inte valt kategori
     protected boolean questionsReady;
     protected boolean p1answered;
     protected boolean p2answered;
 
-    public void setupScoreArrays(int questions, int rounds){  //Skapar BÅDA spelarnas resultat arrayer
-        p1score = new boolean[questions][rounds];
-        p2score = new boolean[questions][rounds];
-    }
-    public void setP1score(int round,boolean[] roundScore){  //Spara spelarens resultat per omgång
-        p1score[round] = roundScore;
-    }
-    public void setP2score(int round,boolean[] roundScore){
-        p2score[round] = roundScore;
-    }
-    public boolean[][] getP1score(){  //Hämtar spelarens poäng
-        return p1score;
-    }
-    public boolean[][] getP2score(){
-        return p2score;
-    }
     public void setChosenQuestions(List<Questions> inputQuestions){
         chosenQuestions = inputQuestions;
     }
@@ -85,7 +69,9 @@ public class Game extends Thread{
         }
         maxRounds = Integer.parseInt(properties.getProperty("ROUNDS", "2"));
         numberOfQuestions = Integer.parseInt(properties.getProperty("QUESTIONS", "2"));
-        setupScoreArrays(numberOfQuestions, maxRounds);
+//        setupScoreArrays(numberOfQuestions, maxRounds);
+        p1score = new boolean[1];
+        p2score = new boolean[1];
         currentRound = 0;
         try {
             p1In = new ObjectInputStream(player1.getInputStream());
@@ -144,11 +130,11 @@ public class Game extends Thread{
                     System.out.println("Väntar på svar från båda spelarna");
                     boolean[] temp1 = (boolean[]) p1In.readObject();
                     System.out.println("Spelare 1 svar inläst");
-                    p1score[currentRound-1] = temp1;
+                    p1score = temp1;
                     System.out.println("Spelare 1 resultat sparat");
                     boolean[] temp2 = (boolean[]) p2In.readObject();
                     System.out.println("spelare 2 svar inläst");
-                    p2score[currentRound-1] = temp2;
+                    p2score= temp2;
                     calculatePoints(temp1, player1);
                     calculatePoints(temp2, player2);
                     System.out.println("Spelare 2 resultat sparat");
@@ -158,8 +144,8 @@ public class Game extends Thread{
                 }
                 if(protocol.state == protocol.UPDATE_RESULT){
                     System.out.println("Innan uppdatering av resultat");
-                    p1Out.writeObject(p2score[currentRound-1]);
-                    p2Out.writeObject(p1score[currentRound-1]);
+                    p1Out.writeObject(p2score);
+                    p2Out.writeObject(p1score);
                     p1Out.writeObject(p2points);
                     p2Out.writeObject(p1points);
 
@@ -215,15 +201,15 @@ public class Game extends Thread{
     }
     public void calculatePoints(boolean[] input, Socket player){
         if(player == player1){
-            for (int i = 0; i < input.length; i++) {
-                if(input[i]){
+            for (boolean b : input) {
+                if (b) {
                     p1points++;
                 }
             }
         }
         if(player == player2){
-            for (int i = 0; i < input.length; i++) {
-                if(input[i]){
+            for (boolean b : input) {
+                if (b) {
                     p2points++;
                 }
             }

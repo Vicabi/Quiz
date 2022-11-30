@@ -53,6 +53,7 @@ public class GUI extends JFrame {
     protected int rounds;
     protected boolean answered;
     protected int playerPointsCounter;
+    protected int opponentPointsCounter;
 
     public GUI(String serverAddress) throws IOException {
 
@@ -85,7 +86,6 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    System.out.println("vald kategori"+listString.get(0));
                     objOut.writeObject(listString.get(0));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -130,7 +130,7 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //kolla om alternativ 1 är rätt
-                if(!answered){
+                if (!answered) {
                     answered = true;
                     if (listQuestions.get(0).getA1().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
@@ -147,7 +147,7 @@ public class GUI extends JFrame {
         answerOptions2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!answered){
+                if (!answered) {
                     answered = true;
                     if (listQuestions.get(0).getA2().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
@@ -164,7 +164,7 @@ public class GUI extends JFrame {
         answerOptions3Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!answered){
+                if (!answered) {
                     answered = true;
                     if (listQuestions.get(0).getA3().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
@@ -181,7 +181,7 @@ public class GUI extends JFrame {
         answerOptions4Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!answered){
+                if (!answered) {
                     answered = true;
                     if (listQuestions.get(0).getA4().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
@@ -221,6 +221,7 @@ public class GUI extends JFrame {
         String turn = player;
         rounds = 1;
         playerPointsCounter = 0;
+        opponentPointsCounter = 0;
         try {
             System.out.println("GUI play");
             fromServer = objIn.readObject();
@@ -253,7 +254,7 @@ public class GUI extends JFrame {
                     gameScreen.setVisible(false);
                     resultScreen.setVisible(false);
 
-                }else if (fromServer instanceof GameFinished) {
+                } else if (fromServer instanceof GameFinished) {
                     homeScreen.setVisible(false);
                     loadingScreen.setVisible(false);
                     categoryScreen.setVisible(false);
@@ -263,14 +264,14 @@ public class GUI extends JFrame {
 
                     //TODO: Check winner
 
-                } else if(fromServer instanceof boolean[]){
+                } else if (fromServer instanceof boolean[]) {
                     opponentAnswers = (boolean[]) fromServer;
                     PlayerResult.setLayout(new GridLayout(10, 1));
-                    OpponentResult.setLayout(new GridLayout(10,1));
+                    OpponentResult.setLayout(new GridLayout(10, 1));
                     updatePlayerResult(answers);
                     updateOpponentResult(opponentAnswers);
 
-                }else if(fromServer instanceof Result){
+                } else if (fromServer instanceof Result) {
                     homeScreen.setVisible(false);
                     loadingScreen.setVisible(false);
                     categoryScreen.setVisible(false);
@@ -278,19 +279,16 @@ public class GUI extends JFrame {
                     resultScreen.setVisible(true);
 
 
-                }else if(fromServer instanceof String) {
-                    if(((String) fromServer).length() == 1){
-                        opponentPoints.setText((String) fromServer);
-                    }
-                }
-                else {
+                } else if (fromServer instanceof String) {
+
+                } else {
                     try {
                         listQuestions = (List<Questions>) fromServer;
                         listString = (List<String>) fromServer;
                     } catch (Exception ignore) {
                     }
 
-                    if (listQuestions != null  && listQuestions.size() != 0 && listQuestions.get(0) instanceof Questions) {
+                    if (listQuestions != null && listQuestions.size() != 0 && listQuestions.get(0) instanceof Questions) {
                         homeScreen.setVisible(false);
                         loadingScreen.setVisible(false);
                         categoryScreen.setVisible(false);
@@ -299,7 +297,7 @@ public class GUI extends JFrame {
                         currentQuestion = 0;
                         questionAmount = listQuestions.size();
                         answers = new boolean[questionAmount];
-                        currentRound.setText("Runda: "+ rounds);
+                        currentRound.setText("Runda: " + rounds);
                         rounds++;
 
                         while (!listQuestions.isEmpty()) {
@@ -324,22 +322,22 @@ public class GUI extends JFrame {
 //                                listQuestions.remove(0);
 //                                currentQuestion++;
 //                            }
-                            if(answered){
+                            if (answered) {
                                 listQuestions.remove(0);
                                 currentQuestion++;
                             }
                         }
-                        if(answers.length == questionAmount){
+                        if (answers.length == questionAmount) {
                             gameScreen.setVisible(false);
                             resultScreen.setVisible(true);
                             objOut.reset();
                             objOut.writeObject(answers);
                             playerPoints.setText(String.valueOf(playerPointsCounter));
-                            System.out.println("Resultat skickade "+ answers[0] + " " + answers[1]);
+                            System.out.println("Resultat skickade " + answers[0] + " " + answers[1]);
                         }
 
                     }
-                    if (listString != null  && listString.size() != 0&& listString.get(0) instanceof String) {
+                    if (listString != null && listString.size() != 0 && listString.get(0) instanceof String) {
                         categoryJLabel.setText("Välj kategori");
                         category1Button.setText(listString.get(0));
                         category2Button.setText(listString.get(1));
@@ -361,32 +359,37 @@ public class GUI extends JFrame {
 
         //Client Rad 93
     }
-    public void updatePlayerResult(boolean[] input){
+
+    public void updatePlayerResult(boolean[] input) {
         JPanel panel = new JPanel();
         for (int i = 0; i < questionAmount; i++) {
             JButton button = new JButton();
             panel.add(button);
             button.setEnabled(false);
-            if(input[i]){
+            if (input[i]) {
                 button.setBackground(Color.GREEN);
-            }
-            else button.setBackground(Color.RED);
+            } else button.setBackground(Color.RED);
         }
         PlayerResult.add(panel);
         PlayerResult.setVisible(true);
     }
 
-    public void updateOpponentResult(boolean[] input){
+    public void updateOpponentResult(boolean[] input) {
         JPanel panel = new JPanel();
         for (int i = 0; i < questionAmount; i++) {
             JButton button = new JButton();
             panel.add(button);
             button.setEnabled(false);
-            if(input[i]){
+            if (input[i]) {
                 button.setBackground(Color.GREEN);
-            }
-            else button.setBackground(Color.RED);
+            } else button.setBackground(Color.RED);
         }
+        for (boolean b : input) {
+            if (b) {
+                opponentPointsCounter++;
+            }
+        }
+        opponentPoints.setText(String.valueOf(opponentPointsCounter));
         OpponentResult.add(panel);
         OpponentResult.setVisible(true);
     }
