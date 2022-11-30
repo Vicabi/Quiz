@@ -169,9 +169,10 @@ public class Game extends Thread{
     }
 
     private void removeCategory(String category){
-        for (int i = 0; i < allCategories.size(); i++) {
-            if(allCategories.get(i).category.equals(category)){
-                allCategories.remove(i);
+        int temp = kategori.size();
+        for (int i = 0; i < temp; i++) {
+            if(kategori.get(i).equals(category)){
+                kategori.remove(i);
                 break;
             }
         }
