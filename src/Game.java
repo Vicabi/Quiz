@@ -143,9 +143,11 @@ public class Game extends Thread{
                 if(protocol.state == protocol.ANSWERING_QUESTIONS){
                     System.out.println("Väntar på svar från båda spelarna");
                     boolean[] temp1 = (boolean[]) p1In.readObject();
+                    System.out.println("Spelare 1 svar inläst");
                     p1score[currentRound-1] = temp1;
                     System.out.println("Spelare 1 resultat sparat");
                     boolean[] temp2 = (boolean[]) p2In.readObject();
+                    System.out.println("spelare 2 svar inläst");
                     p2score[currentRound-1] = temp2;
                     calculatePoints(temp1, player1);
                     calculatePoints(temp2, player2);
@@ -188,11 +190,7 @@ public class Game extends Thread{
     }
 
     private List<String> getCategory(){
-        System.out.println("innan "+kategori);
         Collections.shuffle(kategori);
-        System.out.println("efter " +kategori);
-        //Fixa en shuffle metod som fungerar
-
 
         return List.of(kategori.get(0), kategori.get(1), kategori.get(2), kategori.get(3));
     }

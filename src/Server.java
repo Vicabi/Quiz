@@ -17,7 +17,6 @@ public class Server {
                 System.out.println("Game skapat");
                 game.currentPlayer = player1;
                 game.start();
-                System.out.println("Slutet av main loop");
 
             }
         } finally {

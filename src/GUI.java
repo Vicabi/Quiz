@@ -52,6 +52,7 @@ public class GUI extends JFrame {
     protected int questionAmount;
     protected int rounds;
     protected boolean answered;
+    protected int playerPointsCounter;
 
     public GUI(String serverAddress) throws IOException {
 
@@ -134,6 +135,7 @@ public class GUI extends JFrame {
                     if (listQuestions.get(0).getA1().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
                         answerOptions1Button.setBackground(Color.GREEN);
+                        playerPointsCounter++;
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions1Button.setBackground(Color.RED);
@@ -150,6 +152,7 @@ public class GUI extends JFrame {
                     if (listQuestions.get(0).getA2().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
                         answerOptions2Button.setBackground(Color.GREEN);
+                        playerPointsCounter++;
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions2Button.setBackground(Color.RED);
@@ -166,6 +169,7 @@ public class GUI extends JFrame {
                     if (listQuestions.get(0).getA3().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
                         answerOptions3Button.setBackground(Color.GREEN);
+                        playerPointsCounter++;
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions3Button.setBackground(Color.RED);
@@ -182,6 +186,7 @@ public class GUI extends JFrame {
                     if (listQuestions.get(0).getA4().equals(listQuestions.get(0).getCorrectAnswer())) {
                         answers[currentQuestion] = true;
                         answerOptions4Button.setBackground(Color.GREEN);
+                        playerPointsCounter++;
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions4Button.setBackground(Color.RED);
@@ -215,6 +220,7 @@ public class GUI extends JFrame {
         String opponent = "TEMP_PLAYER2";
         String turn = player;
         rounds = 1;
+        playerPointsCounter = 0;
         try {
             System.out.println("GUI play");
             fromServer = objIn.readObject();
@@ -231,11 +237,9 @@ public class GUI extends JFrame {
                 player1JLabel.setText("Du");
                 player2JLabel.setText("Motståndare");
             }
-            System.out.println("Innan loop i play");
             while (true) {
                 fromServer = objIn.readObject();
                 if (fromServer instanceof Intro) {
-                    System.out.println("instanceof intro");
                     homeScreen.setVisible(true);
                     loadingScreen.setVisible(false);
                     categoryScreen.setVisible(false);
@@ -243,7 +247,6 @@ public class GUI extends JFrame {
                     resultScreen.setVisible(false);
 
                 } else if (fromServer instanceof Waiting) {
-                    System.out.println("instanceof waiting");
                     homeScreen.setVisible(false);
                     loadingScreen.setVisible(true);
                     categoryScreen.setVisible(false);
@@ -251,7 +254,6 @@ public class GUI extends JFrame {
                     resultScreen.setVisible(false);
 
                 }else if (fromServer instanceof GameFinished) {
-                    System.out.println("instanceof gamefinished");
                     homeScreen.setVisible(false);
                     loadingScreen.setVisible(false);
                     categoryScreen.setVisible(false);
@@ -277,10 +279,11 @@ public class GUI extends JFrame {
 
 
                 }else if(fromServer instanceof String) {
-                    System.out.println("instance of string");
+                    if(((String) fromServer).length() == 1){
+                        opponentPoints.setText((String) fromServer);
+                    }
                 }
                 else {
-                    System.out.println("instanceof list");
                     try {
                         listQuestions = (List<Questions>) fromServer;
                         listString = (List<String>) fromServer;
@@ -296,7 +299,7 @@ public class GUI extends JFrame {
                         currentQuestion = 0;
                         questionAmount = listQuestions.size();
                         answers = new boolean[questionAmount];
-                        currentRound.setText("Runda: "+String.valueOf(rounds));
+                        currentRound.setText("Runda: "+ rounds);
                         rounds++;
 
                         while (!listQuestions.isEmpty()) {
@@ -329,7 +332,9 @@ public class GUI extends JFrame {
                         if(answers.length == questionAmount){
                             gameScreen.setVisible(false);
                             resultScreen.setVisible(true);
+                            objOut.reset();
                             objOut.writeObject(answers);
+                            playerPoints.setText(String.valueOf(playerPointsCounter));
                             System.out.println("Resultat skickade "+ answers[0] + " " + answers[1]);
                         }
 
