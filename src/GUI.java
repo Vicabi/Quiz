@@ -226,10 +226,6 @@ public class GUI extends JFrame {
                         opponent = "Spelare 2";
                     } else opponent = "Spelare 1";
                 }
-                if(s.length() == 1){
-                    opponentPoints.setText(s);
-
-                }
                 System.out.println("Spelare - " + player);
                 setTitle(player);
                 player1JLabel.setText("Du");
@@ -300,8 +296,8 @@ public class GUI extends JFrame {
                         currentQuestion = 0;
                         questionAmount = listQuestions.size();
                         answers = new boolean[questionAmount];
+                        currentRound.setText("Runda: "+String.valueOf(rounds));
                         rounds++;
-                        currentRound.setText(String.valueOf(rounds));
 
                         while (!listQuestions.isEmpty()) {
                             answered = false;
