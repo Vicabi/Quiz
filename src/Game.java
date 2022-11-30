@@ -112,6 +112,13 @@ public class Game extends Thread{
                         p2Out.writeObject(categories);
                         System.out.println("Kategorier skickade till Spelare 2");
                     }
+                    if(player1 != currentPlayer){
+                        p1Out.writeObject(new Result());
+
+                    }else if(player2 != currentPlayer){
+                        p2Out.writeObject(new Result());
+
+                    }
                     protocol.getOutput(false);
                 }
                 if(protocol.state == protocol.SENDING_QUESTIONS){
@@ -135,9 +142,13 @@ public class Game extends Thread{
                 }
                 if(protocol.state == protocol.ANSWERING_QUESTIONS){
                     System.out.println("Väntar på svar från båda spelarna");
-                    p1score[currentRound-1] = (boolean[]) p1In.readObject();
+                    boolean[] temp1 = (boolean[]) p1In.readObject();
+                    p1score[currentRound-1] = temp1;
                     System.out.println("Spelare 1 resultat sparat");
-                    p2score[currentRound-1] = (boolean[]) p2In.readObject();
+                    boolean[] temp2 = (boolean[]) p2In.readObject();
+                    p2score[currentRound-1] = temp2;
+                    calculatePoints(temp1, player1);
+                    calculatePoints(temp2, player2);
                     System.out.println("Spelare 2 resultat sparat");
 
                     System.out.println("Båda spelarna har skickat in svar");
@@ -147,6 +158,11 @@ public class Game extends Thread{
                     System.out.println("Innan uppdatering av resultat");
                     p1Out.writeObject(p2score[currentRound-1]);
                     p2Out.writeObject(p1score[currentRound-1]);
+                    p1Out.writeObject(p2points);
+                    p2Out.writeObject(p1points);
+
+                    System.out.println("Spelare 1 poäng: "+p1points);
+                    System.out.println("Spelare 2 poäng: "+p2points);
                     System.out.println("Efter uppdatering av resultat");
 
                     if(currentRound < maxRounds){
@@ -198,6 +214,22 @@ public class Game extends Thread{
 
         //Ta bort använd kategori
         return questions;
+    }
+    public void calculatePoints(boolean[] input, Socket player){
+        if(player == player1){
+            for (int i = 0; i < input.length; i++) {
+                if(input[i]){
+                    p1points++;
+                }
+            }
+        }
+        if(player == player2){
+            for (int i = 0; i < input.length; i++) {
+                if(input[i]){
+                    p2points++;
+                }
+            }
+        }
     }
 
     Questions historiaQ1 = new Questions("Mellan vilka år pågick först världskriget?", "1912 - 1917", "1914 - 1918", "1914 - 1919", "1913 - 1918", "1914 - 1918");
