@@ -69,6 +69,8 @@ public class GUI extends JFrame {
         setVisible(true);
         PlayerResult.setLayout(new GridLayout(10, 1));
         OpponentResult.setLayout(new GridLayout(10, 1));
+        player1JLabel.setText("Du");
+        player2JLabel.setText("Motståndare");
         mainPanel.add(homeScreen);
         mainPanel.add(loadingScreen);
         mainPanel.add(categoryScreen);
@@ -131,10 +133,8 @@ public class GUI extends JFrame {
         answerOptions1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //kolla om alternativ 1 är rätt
                 if (!answered) {
                     if (listQuestions.get(0).getA1().equals(listQuestions.get(0).getCorrectAnswer())) {
-                        System.out.println(listQuestions.get(0).getA1() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions1Button.setBackground(Color.GREEN);
                     } else {
@@ -151,7 +151,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
                     if (listQuestions.get(0).getA2().equals(listQuestions.get(0).getCorrectAnswer())) {
-                        System.out.println(listQuestions.get(0).getA2() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions2Button.setBackground(Color.GREEN);
                     } else {
@@ -168,7 +167,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
                     if (listQuestions.get(0).getA3().equals(listQuestions.get(0).getCorrectAnswer())) {
-                        System.out.println(listQuestions.get(0).getA3() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions3Button.setBackground(Color.GREEN);
                     } else {
@@ -185,7 +183,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
                     if (listQuestions.get(0).getA4().equals(listQuestions.get(0).getCorrectAnswer())) {
-                        System.out.println(listQuestions.get(0).getA4() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions4Button.setBackground(Color.GREEN);
                     } else {
@@ -206,7 +203,6 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    play();
                     newGameButton2.setVisible(false);
                 } catch (Exception ex) {
                     System.out.println("Kunde inte starta nytt spel");
@@ -225,7 +221,7 @@ public class GUI extends JFrame {
         playerPointsCounter = 0;
         opponentPointsCounter = 0;
         try {
-            System.out.println("GUI play");
+            System.out.println("Ansluten");
             fromServer = objIn.readObject();
             if (fromServer instanceof String) {
                 String s = (String) fromServer;
@@ -237,13 +233,11 @@ public class GUI extends JFrame {
                 }
                 System.out.println("Spelare - " + player);
                 setTitle(player);
-                player1JLabel.setText("Du");
-                player2JLabel.setText("Motståndare");
             }
             while (true) {
                 fromServer = objIn.readObject();
                 if (fromServer instanceof Intro) {
-                    homeScreen.setVisible(true);
+                    homeScreen.setVisible(false);
                     loadingScreen.setVisible(false);
                     categoryScreen.setVisible(false);
                     gameScreen.setVisible(false);
@@ -322,7 +316,6 @@ public class GUI extends JFrame {
                             resultScreen.setVisible(true);
                             objOut.reset();
                             objOut.writeObject(answers);
-                            System.out.println("Resultat skickade " + answers[0] + " " + answers[1] + " " + answers[2]);
                         }
 
                     }

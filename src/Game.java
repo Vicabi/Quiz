@@ -36,7 +36,6 @@ public class Game extends Thread{
     public void run(){
         Protocol protocol = new Protocol();
         Properties properties = new Properties();
-        properties = new Properties();
 
         try {
             properties.load(new FileInputStream("src/Properties.properties"));
@@ -141,11 +140,8 @@ public class Game extends Thread{
                     System.out.println("Spelet avslutat");
                     protocol.getOutput(false);
                 }
-
-
             }
         }catch (Exception ignore){}
-
     }
 
     private List<String> getCategory(){
@@ -164,16 +160,6 @@ public class Game extends Thread{
             }
         }
         return questions;
-    }
-
-    private void removeCategory(String category){
-        int temp = kategori.size();
-        for (int i = 0; i < temp; i++) {
-            if(kategori.get(i).equals(category)){
-                kategori.remove(i);
-                break;
-            }
-        }
     }
     public void calculatePoints(boolean[] input, Socket player){
         if(player == player1){

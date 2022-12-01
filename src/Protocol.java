@@ -1,9 +1,3 @@
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
 public class Protocol {
     final protected int INITIAL = 0;    //Spelare ansluten
     final protected int WAITING = 1;    //Väntar på motståndare
@@ -16,9 +10,7 @@ public class Protocol {
 
     protected int state = INITIAL;
 
-    public Object getOutput(boolean anotherRound) { //Spelaren klickar på "Historia"-knappen och skickar hit
-        Object output = null;
-
+    public void getOutput(boolean anotherRound) { //Spelaren klickar på "Historia"-knappen och skickar hit
         if (state == INITIAL) {         //Spelare ansluten
             System.out.println("initial state");
 
@@ -50,7 +42,5 @@ public class Protocol {
             System.out.println("finished state");
             state = END;
         }
-
-        return output;
     }
 }
