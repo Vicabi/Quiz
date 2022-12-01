@@ -121,8 +121,6 @@ public class Game extends Thread{
                     System.out.println("Innan uppdatering av resultat");
                     p1Out.writeObject(p2score);
                     p2Out.writeObject(p1score);
-//                    p1Out.writeObject(p2points);
-//                    p2Out.writeObject(p1points);
 
                     System.out.println("Spelare 1 poäng: "+p1points);
                     System.out.println("Spelare 2 poäng: "+p2points);
