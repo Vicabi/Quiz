@@ -195,7 +195,7 @@ public class Game extends Thread{
     }
 
     Questions historiaQ1 = new Questions("Mellan vilka år pågick först världskriget?", "1912 - 1917", "1914 - 1918", "1914 - 1919", "1913 - 1918", "1914 - 1918");
-    Questions historiaQ2 = new Questions("Vad hette personen som höll det kända \"Jag har en dröm\" (\"I have a dream\") talet?", "Nelson Mandela", "Barack Obama", "Martin Luther King, jr", "Napoleon", "Martin Luther King, jr");
+    Questions historiaQ2 = new Questions("I vilket land föddes moralfilosofen Adam Smith?", "Skottland", "USA", "Irland", "Norge", "Skottland");
     Questions historiaQ3 = new Questions("Vem var Sveriges första statsminister?", "Carl Gustaf", "Carl Johan", "Gustav Vasa", "Louis de Geer", "Louis de Geer");
     Category historia = new Category("Historia", historiaQ1, historiaQ2, historiaQ3);
 
@@ -206,7 +206,7 @@ public class Game extends Thread{
 
     Questions filmQ1 = new Questions("Vilken är den mest inkomstbringande filmen genom tiderna?", "Avatar", "Avengers: Endgame", "Titanic", "Frozen", "Avatar");
     Questions filmQ2 = new Questions("Vilket år kom filmen \"2012\" ut?", "2012", "2009", "2015", "2010", "2009");
-    Questions filmQ3 = new Questions("För vilken film vann skådespelerskan \"Jennifer Lawrence\" Oscar 2013 (Bästa kvinnliga huvudroll)?", "The Hunger Games", "X-Men", "American Hustle", "Silver Linings Playbook", "Silver Linings Playbook");
+    Questions filmQ3 = new Questions("Vad heter filmen som tre ekorrar är med i?", "Smurfarna", "Alvin o gänget", "Kalle och chokladfabriken", "Solsidan", "Alvin o gänget");
     Category film = new Category("Film", filmQ1, filmQ2, filmQ3);
 
     Questions geografiQ1 = new Questions("Vad är Brasiliens huvudstad?", "Rio de Janeiro", "São Paulo", "Brasilia", "Buenos Aires", "Brasilia");

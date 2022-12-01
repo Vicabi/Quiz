@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,10 +63,65 @@ public class GUI extends JFrame {
         objIn = new ObjectInputStream(socket.getInputStream());
         objOut = new ObjectOutputStream(socket.getOutputStream());
 
+        jLabel1.setFont(new Font("Poppins", Font.BOLD, 17));
+        jLabel1.setForeground(Color.white);
+
+        resultJLabel.setFont(new Font("Poppins", Font.BOLD, 17));
+        resultJLabel.setForeground(Color.white);
+
+        categoryJLabel.setFont(new Font("Poppins", Font.BOLD, 18));
+        categoryJLabel.setForeground(Color.white);
+
+        questionLabel.setFont(new Font("Poppins", Font.BOLD, 14));
+        questionLabel.setForeground(Color.white);
+
+        category1Button.setBackground(new Color(51,153,255));
+        category1Button.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(0,191,255),new Color(70,130,180)));
+        category1Button.setFont(new Font("Poppins", Font.BOLD, 17));
+        category1Button.setForeground(Color.white);
+
+        category2Button.setBackground(new Color(51,153,255));
+        category2Button.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(0,191,255),new Color(70,130,180)));
+        category2Button.setFont(new Font("Poppins", Font.BOLD, 17));
+        category2Button.setForeground(Color.white);
+
+        category3Button.setBackground(new Color(51,153,255));
+        category3Button.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(0,191,255),new Color(70,130,180)));
+        category3Button.setFont(new Font("Poppins", Font.BOLD, 17));
+        category3Button.setForeground(Color.white);
+
+        category4Button.setBackground(new Color(51,153,255));
+        category4Button.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(0,191,255),new Color(70,130,180)));
+        category4Button.setFont(new Font("Poppins", Font.BOLD, 17));
+        category4Button.setForeground(Color.white);
+
+        answerOptions1Button.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(0,191,255),new Color(95,158,160)));
+        answerOptions1Button.setFont(new Font("Poppins", Font.BOLD, 12));
+
+        answerOptions2Button.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(0,191,255),new Color(95,158,160)));
+        answerOptions2Button.setFont(new Font("Poppins", Font.BOLD, 12));
+
+        answerOptions3Button.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(0,191,255),new Color(95,158,160)));
+        answerOptions3Button.setFont(new Font("Poppins", Font.BOLD, 12));
+
+        answerOptions4Button.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(0,191,255),new Color(95,158,160)));
+        answerOptions4Button.setFont(new Font("Poppins", Font.BOLD, 12));
+
+        endGameButton.setBackground(new Color	(127,255,0));
+        endGameButton.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(152,251,152),new Color(50,205,50)));
+
+        newGameButton.setBackground(new Color	(127,255,0));
+        newGameButton.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(152,251,152),new Color(50,205,50)));
+
+        newGameButton2.setBackground(new Color	(127,255,0));
+        newGameButton2.setBorder(new SoftBevelBorder(BevelBorder.RAISED,new Color(152,251,152),new Color(50,205,50)));
+
+
+
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
-        this.setSize(450, 600);
+        this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         setVisible(true);
         PlayerResult.setLayout(new GridLayout(10, 1));
@@ -232,8 +289,13 @@ public class GUI extends JFrame {
                 }
                 System.out.println("Spelare - " + player);
                 setTitle(player);
+                player1JLabel.setFont(new Font("Poppins", Font.BOLD, 17));
+                player1JLabel.setForeground(Color.white);
                 player1JLabel.setText("Du");
+                player2JLabel.setFont(new Font("Poppins", Font.BOLD, 17));
+                player2JLabel.setForeground(Color.white);
                 player2JLabel.setText("Motståndare");
+
             }
             while (true) {
                 fromServer = objIn.readObject();
@@ -293,6 +355,8 @@ public class GUI extends JFrame {
                         questionAmount = listQuestions.size();
                         answers = new boolean[questionAmount];
                         currentRound.setText("Runda: " + rounds);
+                        currentRound.setForeground(Color.white);
+                        currentRound.setFont(new Font("Poppins", Font.BOLD, 14));
                         rounds++;
 
                         while (!listQuestions.isEmpty()) {
@@ -360,6 +424,7 @@ public class GUI extends JFrame {
         playerPoints.setText(String.valueOf(playerPointsCounter));
         PlayerResult.add(panel);
         PlayerResult.setVisible(true);
+
     }
 
     public void updateOpponentResult(boolean[] input) {
@@ -380,6 +445,7 @@ public class GUI extends JFrame {
         opponentPoints.setText(String.valueOf(opponentPointsCounter));
         OpponentResult.add(panel);
         OpponentResult.setVisible(true);
+
     }
 
     public void checkWinner() {
