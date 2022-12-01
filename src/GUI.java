@@ -67,6 +67,8 @@ public class GUI extends JFrame {
         this.setSize(450, 600);
         this.setLocationRelativeTo(null);
         setVisible(true);
+        PlayerResult.setLayout(new GridLayout(10, 1));
+        OpponentResult.setLayout(new GridLayout(10, 1));
         mainPanel.add(homeScreen);
         mainPanel.add(loadingScreen);
         mainPanel.add(categoryScreen);
@@ -131,14 +133,15 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //kolla om alternativ 1 är rätt
                 if (!answered) {
-                    answered = true;
                     if (listQuestions.get(0).getA1().equals(listQuestions.get(0).getCorrectAnswer())) {
+                        System.out.println(listQuestions.get(0).getA1() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions1Button.setBackground(Color.GREEN);
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions1Button.setBackground(Color.RED);
                     }
+                    answered = true;
                 }
             }
         });
@@ -147,14 +150,15 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
-                    answered = true;
                     if (listQuestions.get(0).getA2().equals(listQuestions.get(0).getCorrectAnswer())) {
+                        System.out.println(listQuestions.get(0).getA2() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions2Button.setBackground(Color.GREEN);
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions2Button.setBackground(Color.RED);
                     }
+                    answered = true;
                 }
             }
         });
@@ -163,14 +167,15 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
-                    answered = true;
                     if (listQuestions.get(0).getA3().equals(listQuestions.get(0).getCorrectAnswer())) {
+                        System.out.println(listQuestions.get(0).getA3() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions3Button.setBackground(Color.GREEN);
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions3Button.setBackground(Color.RED);
                     }
+                    answered = true;
                 }
             }
         });
@@ -179,14 +184,15 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
-                    answered = true;
                     if (listQuestions.get(0).getA4().equals(listQuestions.get(0).getCorrectAnswer())) {
+                        System.out.println(listQuestions.get(0).getA4() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions4Button.setBackground(Color.GREEN);
                     } else {
                         answers[currentQuestion] = false;
                         answerOptions4Button.setBackground(Color.RED);
                     }
+                    answered = true;
                 }
             }
         });
@@ -262,8 +268,6 @@ public class GUI extends JFrame {
 
                 } else if (fromServer instanceof boolean[]) {
                     opponentAnswers = (boolean[]) fromServer;
-                    PlayerResult.setLayout(new GridLayout(10, 1));
-                    OpponentResult.setLayout(new GridLayout(10, 1));
                     updatePlayerResult(answers);
                     updateOpponentResult(opponentAnswers);
 
@@ -318,7 +322,7 @@ public class GUI extends JFrame {
                             resultScreen.setVisible(true);
                             objOut.reset();
                             objOut.writeObject(answers);
-                            System.out.println("Resultat skickade " + answers[0] + " " + answers[1]);
+                            System.out.println("Resultat skickade " + answers[0] + " " + answers[1] + " " + answers[2]);
                         }
 
                     }
