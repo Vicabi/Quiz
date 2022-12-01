@@ -75,7 +75,7 @@ public class GUI extends JFrame {
         mainPanel.add(gameScreen);
         mainPanel.add(resultScreen);
 
-        newGameButton.addActionListener(new ActionListener() { // Knapp för att starta spelet
+        newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -131,10 +131,8 @@ public class GUI extends JFrame {
         answerOptions1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //kolla om alternativ 1 är rätt
                 if (!answered) {
                     if (listQuestions.get(0).getA1().equals(listQuestions.get(0).getCorrectAnswer())) {
-                        System.out.println(listQuestions.get(0).getA1() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions1Button.setBackground(Color.GREEN);
                     } else {
@@ -151,7 +149,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
                     if (listQuestions.get(0).getA2().equals(listQuestions.get(0).getCorrectAnswer())) {
-                        System.out.println(listQuestions.get(0).getA2() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions2Button.setBackground(Color.GREEN);
                     } else {
@@ -168,7 +165,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
                     if (listQuestions.get(0).getA3().equals(listQuestions.get(0).getCorrectAnswer())) {
-                        System.out.println(listQuestions.get(0).getA3() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions3Button.setBackground(Color.GREEN);
                     } else {
@@ -185,7 +181,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!answered) {
                     if (listQuestions.get(0).getA4().equals(listQuestions.get(0).getCorrectAnswer())) {
-                        System.out.println(listQuestions.get(0).getA4() + "    " + listQuestions.get(0).getCorrectAnswer());
                         answers[currentQuestion] = true;
                         answerOptions4Button.setBackground(Color.GREEN);
                     } else {
@@ -322,7 +317,6 @@ public class GUI extends JFrame {
                             resultScreen.setVisible(true);
                             objOut.reset();
                             objOut.writeObject(answers);
-                            System.out.println("Resultat skickade " + answers[0] + " " + answers[1] + " " + answers[2]);
                         }
 
                     }
